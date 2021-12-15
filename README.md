@@ -33,7 +33,7 @@ width -- The width of the visualization that you want to make in inches Eg. 2 fo
 ** Since we are making square visualizations and evaluating their performance, we are taking height = width and not asking for any height parameter as input 
 
 ### Command to run : 
-python hist-vis.py --infile wnba.csv --column "Height" --width 2
+ python hist-vis.py --infile titanic.csv --column "Fare" --width 5
 
 #### Output :
 ![alt text](https://github.com/RoopaD30/CS765-Tiny-charts/blob/main/output.png?raw=true)
