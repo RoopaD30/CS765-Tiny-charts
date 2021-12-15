@@ -35,5 +35,7 @@ width -- The width of the visualization that you want to make in inches Eg. 2 fo
 ### Command to run : 
 python hist-vis.py --infile wnba.csv --column "Height" --width 2
 
+#### Output :
+![alt text](https://github.com/RoopaD30/CS765-Tiny-charts/blob/main/output.png?raw=true)
 
 
