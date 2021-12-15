@@ -181,8 +181,8 @@ if plotHist:
     elif len(set(dataset[column])) > 10:
         #plt.setp(axs.get_xticklabels(), rotation=30, horizontalalignment='right')
         plt.xticks(rotation=90)
-    #plt.show()
-    plt.savefig("output.png")
+    plt.show()
+    #plt.savefig("output.png")
 
 else:
     if dist_type != "Ordinal":
@@ -191,8 +191,8 @@ else:
             plt.axis('off')
         
         #plt.axis('off')
-        #plt.show()
-        plt.savefig("output.png")
+        plt.show()
+        #plt.savefig("output.png")
     else:
         fig, axs = plt.subplots(1, 1,
     						figsize = (d1, d2),
@@ -202,5 +202,5 @@ else:
         plt.xticks([])
         if d1 < 1:
             plt.axis('off')
-        #plt.show()
-        plt.savefig("output.png")
+        plt.show()
+        #plt.savefig("output.png")
