@@ -42,8 +42,8 @@ dataset = pd.read_csv(os.path.join(os.getcwd(), 'data', flags.infile))
 column = flags.column
 
 try:
-    x = np.asarray(dataset[column])
-    x = x[~pd.isnull(x)]
+    x = np.asarray(dataset[column])   
+    x = x[~pd.isnull(x)]     # Check for any null values and do not consider them
 except Exception:
     print("The entered column is not present in the dataframe")
     sys.exit()
@@ -53,12 +53,12 @@ except Exception:
 d1 = flags.width
 d2 = d1
 
-if d1*d2 <= 2:
+if d1*d2 <= 2:  # depending on dimensions specified decide if to plot histogram or not
     plotHist = False
 else:
     plotHist = True
     
-if dataset[column].dtype != 'O':
+if dataset[column].dtype != 'O': # calculate the skew only when the data is numerical and assign the distribution type
     
     mode = dataset[column].skew(axis=0, skipna=True)
 
@@ -77,7 +77,7 @@ else:
     dist_type = "Ordinal"
 
 if plotHist:
-    
+    # Depending on the distribution type, calculate the number of bins which are to be used for histogram
     if dist_type == "ESkewed":
         # Rice rule Gives more number of deviations. 
         # Suits Symmetrical -- Small dimensions 
@@ -133,20 +133,10 @@ if plotHist:
     
     # Creating histogram
     N, bins, patches = axs.hist(x, bins = n_bins)
-    
+    # Adding the KDE line to histogram
     if dist_type != "ESkewed" and  dist_type != "Ordinal" and (d1 >2 or d2>2) :
         dataset[column].plot(kind='kde', ax=axs, secondary_y=True)
-    
-# =============================================================================
-#     length = bins[len(bins)-1] - bins[0]
-#     maxHeight = max(N)
-#     area = sum(N) * length
-#     
-#     total_area = maxHeight * len(bins)-1
-#     
-#     percent = (area / total_area) * 100
-#     print("Percentage of area occupied: ",percent)
-# =============================================================================
+
     
     # Setting color
     fracs = ((N**(1 / 5)) / N.max())
@@ -156,7 +146,7 @@ if plotHist:
      	color = plt.cm.viridis(norm(thisfrac))
      	thispatch.set_facecolor(color)
         
-        
+    # Setting count labels
     if (dist_type == "ESkewed" and (d1 > 4 or d2 > 4)) or (dist_type != "ESkewed" and (d1 > 3 or d2 > 3)):
         labels = [int(i) for i in N]
       
@@ -170,14 +160,17 @@ if plotHist:
     # Adding extra features
     plt.xlabel("X-axis")
     plt.ylabel("y-axis")
-    # Show plot
+    
+    # Deciding on whether to display the title based on dimensions specified
     if d1 > 2 or d2 > 2:
         plt.title("Histogram for "+column)
+    # Deciding on the place to place the legend depending on the dimensions specified
     if d1 > 3 or d2 > 3:
         plt.legend(['Distribution'],bbox_to_anchor=(0.85,1.025), loc="upper left")
-        
+    # Deciding on whether to display the x-ticks or x-labels
     if len(set(dataset[column])) > 20:
         plt.xticks([])
+    # Deciding on if we want to reverse the labels based on number of utems to be displayed
     elif len(set(dataset[column])) > 10:
         #plt.setp(axs.get_xticklabels(), rotation=30, horizontalalignment='right')
         plt.xticks(rotation=90)
@@ -185,22 +178,22 @@ if plotHist:
     #plt.savefig("output.png")
 
 else:
-    if dist_type != "Ordinal":
+    if dist_type != "Ordinal": # If data is numerical at smaller dimension, then show the KDE plot
         dataset[column].plot.kde(figsize=(d1,d2))
         if d1 < 1:
-            plt.axis('off')
+            plt.axis('off') # If dimension is asking for a sparkline, remove the axes
         
         #plt.axis('off')
         plt.show()
         #plt.savefig("output.png")
-    else:
+    else:  # plot the default histogram for categorical data at smaller dimension
         fig, axs = plt.subplots(1, 1,
     						figsize = (d1, d2),
     						tight_layout = True)
         axs.hist(x)
-        plt.yticks([])
+        plt.yticks([]) # Remove x-ticks and y-ticks
         plt.xticks([])
         if d1 < 1:
-            plt.axis('off')
+            plt.axis('off') # If dimension is asking for a sparkline, remove the axes
         plt.show()
         #plt.savefig("output.png")
