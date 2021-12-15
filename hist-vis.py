@@ -182,6 +182,7 @@ if plotHist:
         #plt.setp(axs.get_xticklabels(), rotation=30, horizontalalignment='right')
         plt.xticks(rotation=90)
     plt.show()
+    plt.savefig("output.png")
 
 else:
     if dist_type != "Ordinal":
@@ -191,6 +192,7 @@ else:
         
         #plt.axis('off')
         plt.show()
+        plt.savefig("output.png")
     else:
         fig, axs = plt.subplots(1, 1,
     						figsize = (d1, d2),
@@ -201,3 +203,4 @@ else:
         if d1 < 1:
             plt.axis('off')
         plt.show()
+        plt.savefig("output.png")
